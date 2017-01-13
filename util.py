@@ -11,7 +11,7 @@ def clipboard_get_data():
     return subprocess.Popen('pbpaste', stdout=subprocess.PIPE).communicate()[0]
 
 if __name__ == '__main__':
-    clipboard_set_data("aaa")
+    # clipboard_set_data("aaa")
     a = clipboard_get_data()
     print(a)
 

@@ -42,20 +42,13 @@ def post_data(filename):
 
 
 if __name__ in '__main__':
-    latest_now = get_latest_file(BASE_DIR)
-    latest_back = ''
+    latest_file = get_latest_file(BASE_DIR)
+    latest_back_file = latest_file
     while 1:
         time.sleep(1)
-        latest_back = latest_now
-        latest_now = get_latest_file(BASE_DIR)
-        if latest_now != latest_back:
-            post_data(latest_now)
+        latest_file = get_latest_file(BASE_DIR)
+        if latest_back_file != latest_file:
+            post_data(latest_file)
+            os.remove(latest_file)
 
-    '''
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
-    '''
+

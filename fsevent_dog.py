@@ -22,11 +22,15 @@ def get_latest_file(dirname):
     latest_path = sorted(files, key=lambda files: files[1])[-1]
     return latest_path[0]
 
+def get_file_timestamp(filename):
+    if filename == None:
+        return
+    return os.stat(filename)
+
 def getext(filename):
     return os.path.splitext(filename)[-1].lower()
 
 def post_data(filename):
-    print(1)
     now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     params = { 
         'base64_data': base64.b64encode(open(filename, 'rt').read()),
@@ -36,26 +40,20 @@ def post_data(filename):
     req = urllib2.Request(END_POINT)
     req.add_data(params)
     res = urllib2.urlopen(req)
-    util.clipboard_set_data(STORAGE_URL + now + '.png')
-    print('ok')
+
+    file_url = STORAGE_URL + now + '.png'
+    util.clipboard_set_data(file_url)
+    print(file_url)
     return 0
 
 
 if __name__ in '__main__':
-    latest_now = get_latest_file(BASE_DIR)
-    latest_back = ''
+    latest_file = get_latest_file(BASE_DIR)
+    latest_back_file = latest_file
     while 1:
         time.sleep(1)
-        latest_back = latest_now
-        latest_now = get_latest_file(BASE_DIR)
-        if latest_now != latest_back:
-            post_data(latest_now)
+        latest_file = get_latest_file(BASE_DIR)
+        if latest_back_file != latest_file:
+            post_data(latest_file)
+            os.remove(latest_file)
 
-    '''
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
-    '''

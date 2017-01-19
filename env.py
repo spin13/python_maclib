@@ -1,0 +1,3 @@
+BASE_DIR = ''
+STORAGE_URL = ''
+END_POINT = ''
